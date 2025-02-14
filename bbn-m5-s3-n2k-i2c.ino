@@ -25,6 +25,7 @@
 #include <Wire.h>
 #include <M5UnitENV.h>
 #include <Preferences.h>
+#include <esp_mac.h>
 
 #define ESP32_CAN_TX_PIN GPIO_NUM_5  // Set CAN TX port to 5 for M5ATOM CANBUS
 #define ESP32_CAN_RX_PIN GPIO_NUM_6  // Set CAN RX port to 6 for M5ATOM CANBUS
