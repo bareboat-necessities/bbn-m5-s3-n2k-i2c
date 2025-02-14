@@ -65,7 +65,7 @@ static bool led_state = false;
 
 void ToggleLed() {
   if (led_state) {
-    AtomS3.dis.drawpix(0x0000ff);
+    AtomS3.dis.drawpix(0x00ff00);
   } else {
     AtomS3.dis.drawpix(0x000000);
   }
