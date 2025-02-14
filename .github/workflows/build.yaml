@@ -1,0 +1,63 @@
+# see: https://github.com/marketplace/actions/test-compile-for-arduino
+
+name: build
+on: [push, pull_request]
+jobs:
+  build:
+    name: build for MCU
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Checkout NMEA2000 library
+      uses: actions/checkout@v4
+      with:
+          repository: ttlappalainen/NMEA2000
+          ref: master
+          path: CustomLibrary_NMEA2000 # must contain string "Custom"
+
+    - name: Compile sketch
+      uses: ArminJo/arduino-test-compile@v3
+      with:
+        arduino-board-fqbn: esp32:esp32:m5stack_atoms3:CDCOnBoot=cdc
+        arduino-platform: esp32:esp32@3.1.1
+        platform-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+        required-libraries: M5AtomS3@1.0.0,M5Unified@0.2.3,M5GFX@0.2.5,ReactESP@2.1.0
+        sketch-names: "*.ino"
+        sketch-names-find-start: bbn-*
+        extra-arduino-cli-args: "--warnings default --build-property compiler.libraries.ldflags=-Wl,--allow-multiple-definition "
+        set-build-path: true
+
+    - name: Find versions
+      run: |
+        find /home/runner -name esptool\*
+        find /home/runner -name boot_app0.bin
+        ls -la /home/runner/
+        ls -l /home/runner/.arduino15/packages/esp32/tools/esptool_py/*
+
+    - name: Make merged .bin
+      run: >
+        $HOME/.arduino15/packages/esp32/tools/esptool_py/4.9.dev3/esptool 
+        --chip esp32s3 merge_bin -o $HOME/work/bbn-m5-s3-n2k-i2c/bbn-m5-s3-n2k-i2c/build/bbn-m5-s3-n2k-i2c_firmware.bin 
+        --flash_mode dio --flash_freq 80m --flash_size 8MB 
+        0x0 "$HOME/work/bbn-m5-s3-n2k-i2c/bbn-m5-s3-n2k-i2c/build/bbn-m5-s3-n2k-i2c.ino.bootloader.bin" 
+        0x8000 "$HOME/work/bbn-m5-s3-n2k-i2c/bbn-m5-s3-n2k-i2c/build/bbn-m5-s3-n2k-i2c.ino.partitions.bin" 
+        0xe000 "$HOME/.arduino15/packages/esp32/hardware/esp32/3.1.1/tools/partitions/boot_app0.bin" 
+        0x10000 "$HOME/work/bbn-m5-s3-n2k-i2c/bbn-m5-s3-n2k-i2c/build/bbn-m5-s3-n2k-i2c.ino.bin"
+
+    - name: Make zip
+      run: |
+        ls /home/runner/work/bbn-m5-s3-n2k-i2c/bbn-m5-s3-n2k-i2c/build/*.bin /home/runner/work/bbn-m5-s3-n2k-i2c/bbn-m5-s3-n2k-i2c/build/*.csv | zip bbn-m5-s3-n2k-i2c_bin-$(date +%Y-%m-%d).zip -j -@
+        pwd
+        ls *.zip
+        
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: bbn-m5-s3-n2k-i2c_bin*.zip
+        tag: ${{ github.ref == 'refs/heads/main' && 'vTest' || github.ref }}
+        overwrite: true
+        file_glob: true
