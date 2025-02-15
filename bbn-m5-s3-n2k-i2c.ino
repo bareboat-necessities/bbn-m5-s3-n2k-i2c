@@ -27,8 +27,8 @@
 #include <Preferences.h>
 #include <esp_mac.h>
 
-#define ESP32_CAN_TX_PIN GPIO_NUM_5  // Set CAN TX port to 5 for M5ATOM CANBUS
-#define ESP32_CAN_RX_PIN GPIO_NUM_6  // Set CAN RX port to 6 for M5ATOM CANBUS
+#define ESP32_CAN_TX_PIN gpio_num_t(5)  // Set CAN TX port to 5 for M5ATOM-S3 CANBUS
+#define ESP32_CAN_RX_PIN gpio_num_t(6)  // Set CAN RX port to 6 for M5ATOM-S3 CANBUS
 
 #define CAN_TX_PIN ESP32_CAN_TX_PIN
 #define CAN_RX_PIN ESP32_CAN_RX_PIN
@@ -82,6 +82,11 @@ void debug_log(char* str) {
 void setup() {
   AtomS3.begin(true);
   AtomS3.dis.setBrightness(100);
+
+  // Init USB serial port
+  Serial.begin(115200);
+  delay(10);
+
   if (!qmp6988.begin(&Wire, QMP6988_SLAVE_ADDRESS_L, 2, 1, 400000U)) {
     while (1) {
       Serial.println("Couldn't find QMP6988");
@@ -96,14 +101,6 @@ void setup() {
     }
   }
 
-  uint8_t chipid[6];
-  uint32_t id = 0;
-  int i = 0;
-
-  // Init USB serial port
-  Serial.begin(115200);
-  delay(10);
-
   // instantiate the NMEA2000 object
   nmea2000 = new tNMEA2000_esp32(CAN_TX_PIN, CAN_RX_PIN);
 
@@ -113,15 +110,18 @@ void setup() {
   nmea2000->SetN2kCANReceiveFrameBufSize(250);
   nmea2000->SetN2kCANSendFrameBufSize(250);
 
+  uint8_t chipid[6];
+  uint32_t id = 0;
+  int i = 0;
   esp_efuse_mac_get_default(chipid);
   for (i = 0; i < 6; i++) id += (chipid[i] << (7 * i));
 
   // Set product information
-  nmea2000->SetProductInformation("00001",                  // Manufacturer's Model serial code
-                                  100,                      // Manufacturer's product code
-                                  "BBN Env Sensor Module",  // Manufacturer's Model ID
-                                  "1.0.2.25 (2023-05-27)",  // Manufacturer's Software version code
-                                  "1.0.2.0 (2023-05-27)"    // Manufacturer's Model version
+  nmea2000->SetProductInformation("00001",                         // Manufacturer's Model serial code
+                                  100,                             // Manufacturer's product code
+                                  "BBN Env Sensor Module m5a-S3",  // Manufacturer's Model ID
+                                  "1.0.2.25 (2023-05-27)",         // Manufacturer's Software version code
+                                  "1.0.2.0 (2023-05-27)"           // Manufacturer's Model version
                                  );
   // Set device information
   nmea2000->SetDeviceInformation(id,   // Unique number. Use e.g. Serial number.
@@ -135,7 +135,7 @@ void setup() {
   //nmea2000->SetForwardType(tNMEA2000::fwdt_Text);  // Show in clear text. Leave uncommented for default Actisense format.
 
   preferences.begin("nvs", false);                          // Open nonvolatile storage (nvs)
-  NodeAddress = preferences.getInt("LastNodeAddress", 35);  // Read stored last NodeAddress, default 35
+  NodeAddress = preferences.getInt("LastNodeAddress", 37);  // Read stored last NodeAddress, default 35
   preferences.end();
   //Serial.printf("NodeAddress=%d\n", NodeAddress);
 
