@@ -6,6 +6,6 @@ NMEA 2000 sensors for M5 atomS3-lite
 ````
 wget https://raw.githubusercontent.com/bareboat-necessities/my-bareboat/refs/heads/master/m5stack-tools/bbn-flash-m5-s3-n2k-i2c.sh
 chmod +x bbn-flash-m5-s3-n2k-i2c.sh
-./bbn-flash-m5-s3-n2k-i2c -p /dev/ttyACM2
+./bbn-flash-m5-s3-n2k-i2c.sh -p /dev/ttyACM2
 
 ````
