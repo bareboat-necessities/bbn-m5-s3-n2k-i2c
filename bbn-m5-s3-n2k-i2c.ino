@@ -140,6 +140,8 @@ void setup() {
   //Serial.printf("NodeAddress=%d\n", NodeAddress);
 
   nmea2000->SetMode(tNMEA2000::N2km_NodeOnly, NodeAddress);
+  // Disable all msg forwarding to USB (=Serial)
+  nmea2000->EnableForward(false);
   nmea2000->ExtendTransmitMessages(TransmitMessages);
 
   nmea2000->Open();
@@ -169,8 +171,8 @@ void SendN2kTempPressure(void) {
     if (qmp6988.update()) {
       BarometricPressure = qmp6988.calcPressure();
     }
-    if (sht30.update()) {       // Obtain the data of shT30.
-      Temperature = sht30.cTemp;  // Store the temperature obtained from shT30.
+    if (sht30.update()) {       // Obtain the data of SHT30.
+      Temperature = sht30.cTemp;  // Store the temperature obtained from SHT30.
       Humidity = sht30.humidity;  // Store the humidity obtained from the SHT30.
     } else {
       Temperature = 0, Humidity = 0;
@@ -187,7 +189,8 @@ void SendN2kTempPressure(void) {
 }
 
 void loop() {
-
+  AtomS3.update();
+  
   SendN2kTempPressure();
 
   nmea2000->ParseMessages();
