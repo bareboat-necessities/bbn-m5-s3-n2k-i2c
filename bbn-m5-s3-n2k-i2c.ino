@@ -65,9 +65,9 @@ static bool led_state = false;
 
 void ToggleLed() {
   if (led_state) {
-    M5.dis.drawpix(0x00ff00);
+    M5.dis.drawpix(0, 0x00ff00);
   } else {
-    M5.dis.drawpix(0x000000);
+    M5.dis.drawpix(0, 0x000000);
   }
   M5.update();
   led_state = !led_state;
