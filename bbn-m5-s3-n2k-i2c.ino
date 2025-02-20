@@ -20,9 +20,9 @@
 // For Can CAIS3050G module. Powered by USB
 // Can isolated (so connect only H and L)
 
-#include <M5AtomS3.h>
 #include <Arduino.h>
 #include <Wire.h>
+#include <M5Unified.h>
 #include <M5UnitENV.h>
 #include <Preferences.h>
 #include <esp_mac.h>
@@ -65,11 +65,11 @@ static bool led_state = false;
 
 void ToggleLed() {
   if (led_state) {
-    AtomS3.dis.drawpix(0x00ff00);
+    M5.dis.drawpix(0x00ff00);
   } else {
-    AtomS3.dis.drawpix(0x000000);
+    M5.dis.drawpix(0x000000);
   }
-  AtomS3.update();
+  M5.update();
   led_state = !led_state;
 }
 
@@ -80,8 +80,8 @@ void debug_log(char* str) {
 }
 
 void setup() {
-  AtomS3.begin(true);
-  AtomS3.dis.setBrightness(100);
+  M5.begin(true);
+  M5.dis.setBrightness(100);
 
   // Init USB serial port
   Serial.begin(115200);
@@ -189,7 +189,7 @@ void SendN2kTempPressure(void) {
 }
 
 void loop() {
-  AtomS3.update();
+  M5.update();
   
   SendN2kTempPressure();
 
