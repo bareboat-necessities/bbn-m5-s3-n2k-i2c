@@ -81,7 +81,6 @@ void debug_log(char* str) {
 
 void setup() {
   M5.begin(true);
-  M5.dis.setBrightness(100);
 
   // Init USB serial port
   Serial.begin(115200);
