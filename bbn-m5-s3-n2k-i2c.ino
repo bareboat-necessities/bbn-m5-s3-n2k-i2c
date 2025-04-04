@@ -87,14 +87,14 @@ void setup() {
   Serial.begin(115200);
   delay(10);
 
-  if (!qmp6988.begin(&Wire, QMP6988_SLAVE_ADDRESS_L, 2, 1, 400000U)) {
+  if (!qmp6988.begin(&Wire1, QMP6988_SLAVE_ADDRESS_L, G38, G39, 400000U)) {
     while (1) {
       Serial.println("Couldn't find QMP6988");
       delay(500);
     }
   }
 
-  if (!sht30.begin(&Wire, SHT3X_I2C_ADDR, 2, 1, 400000U)) {
+  if (!sht30.begin(&Wire1, SHT3X_I2C_ADDR, G38, G39, 400000U)) {
     while (1) {
       Serial.println("Couldn't find SHT3X");
       delay(500);
