@@ -7,6 +7,8 @@
 #include "Nmea0183Msg.h"
 #inclide "NMEA2000_esp32.h"
 
+#include <N2kMessages.h>
+
 #define SHT3X_I2C_ADDR 0x44
 
 SHT3X i2c_sht30_sensor;
