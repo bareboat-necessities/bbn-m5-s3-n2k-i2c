@@ -42,17 +42,16 @@ ReactESP app;
 #include "NMEA2000_esp32.h"
 #include <N2kMessages.h>
 
+int NodeAddress;  // To store last Node Address
+tNMEA2000* nmea2000;
+
+Preferences preferences;  // Nonvolatile storage on ESP32 - To store LastDeviceAddress
+
 #include "i2c_sensors.h"
 
 static const char* firmware_tag = "bbn-m5-s3-n2k-i2c";
 
 #define ENABLE_DEBUG_LOG 0  // Debug log
-
-int NodeAddress;  // To store last Node Address
-
-tNMEA2000* nmea2000;
-
-Preferences preferences;  // Nonvolatile storage on ESP32 - To store LastDeviceAddress
 
 // Set the information for other bus devices, which messages we support
 
