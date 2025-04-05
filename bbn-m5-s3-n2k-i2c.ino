@@ -33,11 +33,10 @@
 #define CAN_TX_PIN ESP32_CAN_TX_PIN
 #define CAN_RX_PIN ESP32_CAN_RX_PIN
 
+#define I2C_FREQ 400000UL
+
 #include "NMEA2000_esp32.h"
 #include <N2kMessages.h>
-
-SHT3X sht30;
-QMP6988 qmp6988;
 
 #define ENABLE_DEBUG_LOG 0  // Debug log
 
@@ -45,21 +44,14 @@ int NodeAddress;  // To store last Node Address
 
 tNMEA2000* nmea2000;
 
-double Temperature = 0;
-double BarometricPressure = 0;
-double Humidity = 0;
-
 Preferences preferences;  // Nonvolatile storage on ESP32 - To store LastDeviceAddress
 
 // Set the information for other bus devices, which messages we support
 
-const unsigned long TransmitMessages[] PROGMEM = { 130310L,  // Outside Environmental parameters
-                                                   0
-                                                 };
-// Send time offsets
-#define TempSendOffset 0
-
-#define SlowDataUpdatePeriod 250  // Time between CAN Messages sent
+const unsigned long TransmitMessages[] PROGMEM = { 
+  130310L,  // Outside Environmental parameters
+  0
+};
 
 static bool led_state = false;
 
@@ -87,14 +79,14 @@ void setup() {
   Serial.begin(115200);
   delay(10);
 
-  if (!qmp6988.begin(&Wire1, QMP6988_SLAVE_ADDRESS_L, G38, G39, 400000U)) {
+  if (!qmp6988.begin(&Wire1, QMP6988_SLAVE_ADDRESS_L, G38, G39, I2C_FREQ)) {
     while (1) {
       Serial.println("Couldn't find QMP6988");
       delay(500);
     }
   }
 
-  if (!sht30.begin(&Wire1, SHT3X_I2C_ADDR, G38, G39, 400000U)) {
+  if (!sht30.begin(&Wire1, SHT3X_I2C_ADDR, G38, G39, I2C_FREQ)) {
     while (1) {
       Serial.println("Couldn't find SHT3X");
       delay(500);
