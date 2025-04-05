@@ -5,6 +5,7 @@
 
 #include "NmeaXDR.h"
 #include "Nmea0183Msg.h"
+#inclide "NMEA2000_esp32.h"
 
 #define SHT3X_I2C_ADDR 0x44
 
