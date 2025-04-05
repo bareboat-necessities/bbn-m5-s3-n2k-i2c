@@ -7,6 +7,8 @@
 #include "Nmea0183Msg.h"
 #inclide "NMEA2000_esp32.h"
 
+#include <N2kMessages.h>
+
 #define QMP6988_SLAVE_ADDRESS_L (0x70)
 #define QMP6988_SLAVE_ADDRESS_H (0x56)
 
