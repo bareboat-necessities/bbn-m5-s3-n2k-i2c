@@ -42,6 +42,8 @@ ReactESP app;
 #include "NMEA2000_esp32.h"
 #include <N2kMessages.h>
 
+static const char* firmware_tag = "bbn-m5-s3-n2k-i2c";
+
 #define ENABLE_DEBUG_LOG 0  // Debug log
 
 int NodeAddress;  // To store last Node Address
@@ -70,20 +72,7 @@ void setup() {
   // Init USB serial port
   Serial.begin(38400);
   delay(10);
-
-  if (!qmp6988.begin(&Wire1, QMP6988_SLAVE_ADDRESS_L, G38, G39, I2C_FREQ)) {
-    while (1) {
-      Serial.println("Couldn't find QMP6988");
-      delay(500);
-    }
-  }
-
-  if (!sht30.begin(&Wire1, SHT3X_I2C_ADDR, G38, G39, I2C_FREQ)) {
-    while (1) {
-      Serial.println("Couldn't find SHT3X");
-      delay(500);
-    }
-  }
+  gen_nmea0183_msg("$BBTXT,01,01,01,FirmwareTag: %s", firmware_tag);
 
   // instantiate the NMEA2000 object
   nmea2000 = new tNMEA2000_esp32(CAN_TX_PIN, CAN_RX_PIN);
@@ -131,45 +120,6 @@ void setup() {
   nmea2000->Open();
 
   delay(200);
-}
-
-bool IsTimeToUpdate(unsigned long NextUpdate) {
-  return (NextUpdate < millis());
-}
-
-unsigned long InitNextUpdate(unsigned long Period, unsigned long Offset = 0) {
-  return millis() + Period + Offset;
-}
-
-void SetNextUpdate(unsigned long& NextUpdate, unsigned long Period) {
-  while (NextUpdate < millis()) NextUpdate += Period;
-}
-
-void SendN2kTempPressure(void) {
-  static unsigned long SlowDataUpdated = InitNextUpdate(SlowDataUpdatePeriod, TempSendOffset);
-  tN2kMsg N2kMsg;
-
-  if (IsTimeToUpdate(SlowDataUpdated)) {
-    SetNextUpdate(SlowDataUpdated, SlowDataUpdatePeriod);
-
-    if (qmp6988.update()) {
-      BarometricPressure = qmp6988.calcPressure();
-    }
-    if (sht30.update()) {       // Obtain the data of SHT30.
-      Temperature = sht30.cTemp;  // Store the temperature obtained from SHT30.
-      Humidity = sht30.humidity;  // Store the humidity obtained from the SHT30.
-    } else {
-      Temperature = 0, Humidity = 0;
-    }
-
-    ToggleLed();
-    Serial.printf("Temperature: %3.1f °C - Barometric Pressure: %6.0f Pa\n", Temperature, BarometricPressure);
-
-    SetN2kPGN130310(N2kMsg, 0, N2kDoubleNA, CToKelvin(Temperature), BarometricPressure);
-    nmea2000->SendMsg(N2kMsg);
-    SetN2kPGN130313(N2kMsg, 0, 0, tN2kHumiditySource::N2khs_InsideHumidity, Humidity);
-    nmea2000->SendMsg(N2kMsg);
-  }
 }
 
 void loop() {
