@@ -120,6 +120,8 @@ void setup() {
   nmea2000->Open();
 
   delay(200);
+
+  i2c_sensors_scan();
 }
 
 void loop() {
