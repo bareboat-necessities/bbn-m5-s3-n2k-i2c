@@ -53,18 +53,6 @@ const unsigned long TransmitMessages[] PROGMEM = {
   0
 };
 
-static bool led_state = false;
-
-void ToggleLed() {
-  if (led_state) {
-    AtomS3.dis.drawpix(0x00ff00);
-  } else {
-    AtomS3.dis.drawpix(0x000000);
-  }
-  AtomS3.update();
-  led_state = !led_state;
-}
-
 void debug_log(char* str) {
 #if ENABLE_DEBUG_LOG == 1
   Serial.println(str);
@@ -76,7 +64,7 @@ void setup() {
   AtomS3.dis.setBrightness(100);
 
   // Init USB serial port
-  Serial.begin(115200);
+  Serial.begin(38400);
   delay(10);
 
   if (!qmp6988.begin(&Wire1, QMP6988_SLAVE_ADDRESS_L, G38, G39, I2C_FREQ)) {
