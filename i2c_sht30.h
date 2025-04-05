@@ -18,6 +18,10 @@ void i2c_sht30_report() {
   if (i2c_sht30_sensor.update()) {
     gen_nmea0183_xdr("$BBXDR,H,%.2f,P,HUMI_SHT3X", i2c_sht30_sensor.humidity);    // %
     gen_nmea0183_xdr("$BBXDR,C,%.2f,C,TEMP_SHT3X", i2c_sht30_sensor.cTemp);       // C
+    tN2kMsg N2kMsg;
+    SetN2kPGN130313(N2kMsg, 0, 0, tN2kHumiditySource::N2khs_InsideHumidity, i2c_sht30_sensor.humidity);
+    nmea2000->SendMsg(N2kMsg);
+    ToggleLed();
   }
 }
 
