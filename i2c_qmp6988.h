@@ -37,6 +37,7 @@ void i2c_qmp6988_report() {
     tN2kMsg N2kMsg;
     SetN2kPGN130310(N2kMsg, 0, N2kDoubleNA, CToKelvin(i2c_qmp6988_sensor.cTemp), i2c_qmp6988_sensor.pressure);
     nmea2000->SendMsg(N2kMsg);
+    ToggleLed();
     gen_nmea0183_xdr("$BBXDR,C,%.2f,C,TEMP_QMP6988", i2c_qmp6988_sensor.cTemp);          // C
     gen_nmea0183_xdr("$BBXDR,P,%.2f,P,PRES_QMP6988", i2c_qmp6988_sensor.pressure);       // Pa
   }
