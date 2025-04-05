@@ -26,6 +26,10 @@
 #include <M5UnitENV.h>
 #include <Preferences.h>
 #include <esp_mac.h>
+#include <ReactESP.h>  // https://github.com/mairas/ReactESP
+
+using namespace reactesp;
+ReactESP app;
 
 #define ESP32_CAN_TX_PIN gpio_num_t(5)  // Set CAN TX port to 5 for M5ATOM-S3 CANBUS
 #define ESP32_CAN_RX_PIN gpio_num_t(6)  // Set CAN RX port to 6 for M5ATOM-S3 CANBUS
@@ -171,7 +175,7 @@ void SendN2kTempPressure(void) {
 void loop() {
   AtomS3.update();
   
-  SendN2kTempPressure();
+  app.tick();
 
   nmea2000->ParseMessages();
   int SourceAddress = nmea2000->GetN2kSource();
