@@ -70,6 +70,8 @@ void setup() {
   AtomS3.begin(true);
   AtomS3.dis.setBrightness(100);
 
+  Wire1.begin(G38, G39, I2C_FREQ);
+
   // Init USB serial port
   Serial.begin(38400);
   delay(10);
