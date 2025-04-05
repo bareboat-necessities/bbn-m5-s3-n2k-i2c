@@ -6,6 +6,7 @@
 #include "NmeaXDR.h"
 #include "Nmea0183Msg.h"
 #include "NMEA2000_esp32.h"
+#include "status_led.h"
 
 #include <N2kMessages.h>
 
