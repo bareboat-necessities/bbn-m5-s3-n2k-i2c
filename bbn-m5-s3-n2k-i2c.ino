@@ -42,6 +42,8 @@ ReactESP app;
 #include "NMEA2000_esp32.h"
 #include <N2kMessages.h>
 
+#include "i2c_sensors.h"
+
 static const char* firmware_tag = "bbn-m5-s3-n2k-i2c";
 
 #define ENABLE_DEBUG_LOG 0  // Debug log
