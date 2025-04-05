@@ -34,6 +34,7 @@ uint8_t i2c_qmp6988_whoami() {
 
 void i2c_qmp6988_report() {
   if (i2c_qmp6988_sensor.update()) {
+    tN2kMsg N2kMsg;
     SetN2kPGN130310(N2kMsg, 0, N2kDoubleNA, CToKelvin(i2c_qmp6988_sensor.cTemp), i2c_qmp6988_sensor.pressure);
     nmea2000->SendMsg(N2kMsg);
     gen_nmea0183_xdr("$BBXDR,C,%.2f,C,TEMP_QMP6988", i2c_qmp6988_sensor.cTemp);          // C
