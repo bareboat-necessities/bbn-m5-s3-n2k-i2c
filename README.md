@@ -17,6 +17,7 @@ Waterproof Male Aviation Socket UnShielded Electrical Cable IP67 Sensor Receptac
 - M3 standoffs
 - USB-C to USB-A cables with small support tang on USB-C end
 - m5stack grove cables
+- m5stack grove to Dupont cables: https://shop.m5stack.com/products/grove2dupont-conversion-cable-20cm-5pairs
 
 ## Flash
 
