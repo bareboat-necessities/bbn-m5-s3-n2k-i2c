@@ -25,6 +25,12 @@ For pins used in connections browse through the firmware code: https://github.co
 
 M5Stack connectors are well color coded and pins are labeled on m5stack portABC.
 
+## Building other sensors
+
+This firmware is for env III sensor unit from m5stack. However by modifying the code you can easily create sensors you need.
+Take a look at the source code of BBN XDR sensors. That code and this example will give you enough pointers how to create your own N2K sensors
+(i2c, 1-wire, digital/analog etc).
+
 ## Loading Firmware
 
 ### On Bareboat Necessities (BBN) OS (full)
