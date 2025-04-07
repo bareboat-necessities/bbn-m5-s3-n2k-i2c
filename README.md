@@ -19,7 +19,23 @@ Waterproof Male Aviation Socket UnShielded Electrical Cable IP67 Sensor Receptac
 - m5stack grove cables
 - m5stack grove to Dupont cables: https://shop.m5stack.com/products/grove2dupont-conversion-cable-20cm-5pairs
 
-## Flash
+## Loading Firmware
+
+### On Bareboat Necessities (BBN) OS (full)
+
+Long press side button on atomS3-lite till you see green to enter the mode for uploading firmware.
+
+NOTE: /dev/ttyACM0 in the script below is for example. In your case device name might be different. You can find out what it is by
+inspecting differences in output of 
+
+```
+ls -ltr /dev/tty*
+```
+
+with the device unplugged from USB and plugged into USB.
+
+
+#### Load the firmware:
 
 ````
 # shutdown signalk
@@ -30,6 +46,15 @@ wget https://raw.githubusercontent.com/bareboat-necessities/my-bareboat/refs/hea
 chmod +x bbn-flash-m5-s3-n2k-i2c.sh
 ./bbn-flash-m5-s3-n2k-i2c.sh -p /dev/ttyACM0
 
+````
+
+Unplug and plug the device into USB to reboot.
+
+### Reading serial port
+
+````
+stty -F /dev/ttyACM0 38400
+socat stdio /dev/ttyACM0
 ````
 
 ## Other Bareboat Necessities Devices
