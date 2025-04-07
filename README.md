@@ -9,7 +9,7 @@ NMEA 2000 sensors for M5 atomS3-lite
 
 ## Accessories
 
-- Waterproof ABS Plastic Enclosure Box Electronic Ip67 Flanged, Clear Cover, Size 100x68x50 (mm)  https://www.aliexpress.us/item/3256806147195874.html
+- Waterproof ABS Plastic Electronic Enclosure Box Ip68, Clear Cover, Hinged with Base Plate and mounting brackets
 - Panel mount NMEA-2000 connector with pig tails. M12 5 Pin Male Connector Cable, A Coded Straight Back Mount Cable
 Waterproof Male Aviation Socket UnShielded Electrical Cable IP67 Sensor Receptacle Brand: FOWIUNYE https://www.amazon.com/Connector-Waterproof-UnShielded-Electrical-Receptacle/dp/B0CB6SCTJ1
 - 
