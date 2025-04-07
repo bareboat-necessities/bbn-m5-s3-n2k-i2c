@@ -31,6 +31,8 @@ This firmware is for env III sensor unit from m5stack. However by modifying the 
 Take a look at the source code of BBN XDR sensors. That code and this example will give you enough pointers how to create your own N2K sensors
 (i2c, 1-wire, digital/analog etc).
 
+For libraries used and their versions check .github/workflows/build.yaml
+
 ## Loading Firmware
 
 ### On Bareboat Necessities (BBN) OS (full)
