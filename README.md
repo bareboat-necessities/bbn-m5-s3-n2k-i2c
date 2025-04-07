@@ -1,6 +1,17 @@
 # bbn-m5-s3-n2k-i2c
 NMEA 2000 sensors for M5 atomS3-lite
 
+<p align="center">
+<img src="./img/bbn_nmea2000_sender_1.jpg?raw=true" style="width: 40%; height: auto;" alt="BBN N2K Sender 1" />
+<img src="./img/bbn_nmea2000_sender_2.jpg?raw=true" style="width: 40%; height: auto;" alt="BBN N2K Sender 1" />
+</p>
+
+<p align="center">
+<img src="./img/bbn_nmea2000_sender_3.jpg?raw=true" style="width: 40%; height: auto;" alt="BBN NMEA2000 Sensors 1" />
+<img src="./img/bbn_nmea2000_sensors_2.jpg?raw=true" style="width: 40%; height: auto;" alt="BBN NMEA2000 Sensors 2" />
+</p>
+
+
 ## Hardware
 
 - m5stack atomS3-lite: https://shop.m5stack.com/products/atoms3-lite-esp32s3-dev-kit
