@@ -19,6 +19,12 @@ Waterproof Male Aviation Socket UnShielded Electrical Cable IP67 Sensor Receptac
 - m5stack grove cables
 - m5stack grove to Dupont cables: https://shop.m5stack.com/products/grove2dupont-conversion-cable-20cm-5pairs
 
+## Making Connections
+
+For pins used in connections browse through the firmware code: https://github.com/bareboat-necessities/bbn-m5-s3-n2k-i2c
+
+M5Stack connectors are well color coded and pins are labeled on m5stack portABC.
+
 ## Loading Firmware
 
 ### On Bareboat Necessities (BBN) OS (full)
